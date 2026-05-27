@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -13,13 +14,13 @@ export default function Header() {
   return (
     <header className={`site-header${scrolled ? " scrolled" : ""}`}>
       <div className="nav-row">
-        <a href="#home" className="nav-logo">
+        <a href="" className="nav-logo">
           Pro <span>Master</span>
         </a>
 
         <nav className="nav-groups">
           <div className="nav-group">
-            <span className="nav-group-label">Products</span>
+            <Link className="nav-group-label" href="/products">Products</Link>
             <div className="nav-dropdown">
               <a href="#products">Waterproofing Systems</a>
               <a href="#products">Tile Adhesives</a>
