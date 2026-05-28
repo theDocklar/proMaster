@@ -1,10 +1,12 @@
 import type { ProductCategoryDocument } from "@/types/sanity";
+import { getProductCategories as fetchFromSanity } from '@/sanity/lib/fetch-all'
 
 /**
  * Mock product categories shaped like Sanity `productCategory` documents.
- * Replace this module with a GROQ fetch when Sanity is connected.
+ * These serve as fallback data when Sanity is not available.
+ * In production, categories are fetched from Sanity via fetchFromSanity()
  */
-export const productCategories: ProductCategoryDocument[] = [
+const mockProductCategories: ProductCategoryDocument[] = [
   {
     _type: "productCategory",
     _id: "category-waterproofing",
@@ -115,8 +117,32 @@ export const productCategories: ProductCategoryDocument[] = [
   },
 ];
 
+/**
+ * Get all product categories
+ * Attempts to fetch from Sanity first, falls back to mock data
+ */
+export async function getProductCategories(): Promise<ProductCategoryDocument[]> {
+  try {
+    const categories = await fetchFromSanity();
+    // Return Sanity data if available
+    if (categories && categories.length > 0) {
+      return categories;
+    }
+  } catch (error) {
+    console.warn("Failed to fetch categories from Sanity, using mock data", error);
+  }
+  // Fallback to mock data
+  return mockProductCategories;
+}
+
+/**
+ * Get all categories synchronously (for legacy code)
+ * Note: This uses mock data only - prefer async getProductCategories() for Sanity integration
+ */
+export const productCategories = mockProductCategories;
+
 export function getCategoryBySlug(slug: string): ProductCategoryDocument | undefined {
-  return productCategories.find((category) => category.slug.current === slug);
+  return mockProductCategories.find((category) => category.slug.current === slug);
 }
 
 export function getCategoryHref(category: ProductCategoryDocument): string {
