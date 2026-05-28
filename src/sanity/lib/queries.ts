@@ -83,18 +83,15 @@ export const CATEGORY_WITH_PRODUCT_COUNT_QUERY = `
 // ═══════════════════════════════════════════════════════════════════════
 
 /**
- * Fetch all products with category reference
+ * Fetch all products with category reference (used for static params + sitemap-style needs)
  */
 export const ALL_PRODUCTS_QUERY = `
-  *[_type == "product"] {
+  *[_type == "product"] | order(name asc) {
     _id,
+    _createdAt,
     name,
     slug,
-    category-> {
-      _id,
-      title,
-      slug
-    },
+    "category": category->{ _id, title, slug },
     description,
     image {
       asset {
@@ -102,16 +99,21 @@ export const ALL_PRODUCTS_QUERY = `
         url
       },
       alt
-    }
+    },
+    applications,
+    specifications,
+    "certifications": certifications[]->{ abbr }
   }
 `
 
 /**
- * Fetch products by category slug
+ * Fetch products by category slug — returns all fields needed by listing UI
+ * (applications, specifications, certifications) plus _createdAt for sorting.
  */
 export const PRODUCTS_BY_CATEGORY_QUERY = `
-  *[_type == "product" && category->slug.current == $categorySlug] {
+  *[_type == "product" && category->slug.current == $categorySlug] | order(name asc) {
     _id,
+    _createdAt,
     name,
     slug,
     description,
@@ -122,7 +124,10 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `
       },
       alt
     },
-    "category": category->{title, slug}
+    "category": category->{ title, slug },
+    applications,
+    specifications,
+    "certifications": certifications[]->{ abbr }
   }
 `
 
@@ -132,6 +137,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `
 export const PRODUCT_DETAIL_QUERY = `
   *[_type == "product" && slug.current == $productSlug][0] {
     _id,
+    _createdAt,
     name,
     slug,
     description,

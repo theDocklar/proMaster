@@ -1,5 +1,8 @@
 import type { ProductCategoryDocument } from "@/types/sanity";
-import { getProductCategories as fetchFromSanity } from '@/sanity/lib/fetch-all'
+import {
+  getProductCategories as fetchFromSanity,
+  getCategoryBySlug as fetchCategoryBySlugFromSanity,
+} from '@/sanity/lib/fetch-all'
 
 /**
  * Mock product categories shaped like Sanity `productCategory` documents.
@@ -141,8 +144,54 @@ export async function getProductCategories(): Promise<ProductCategoryDocument[]>
  */
 export const productCategories = mockProductCategories;
 
-export function getCategoryBySlug(slug: string): ProductCategoryDocument | undefined {
+/**
+ * Synchronous mock-only lookup. Useful where async cannot be awaited
+ * (e.g. inside synchronous helpers or for instant fallbacks).
+ */
+export function getMockCategoryBySlug(slug: string): ProductCategoryDocument | undefined {
   return mockProductCategories.find((category) => category.slug.current === slug);
+}
+
+/** Map a raw Sanity category document into the shape used across the UI. */
+function adaptSanityCategory(doc: any): ProductCategoryDocument {
+  return {
+    _type: "productCategory",
+    _id: doc._id,
+    title: doc.title ?? "",
+    shortTitle: doc.shortTitle,
+    slug: { _type: "slug", current: doc.slug?.current ?? "" },
+    description: doc.description ?? "",
+    image: {
+      _type: "image",
+      asset: {
+        _ref: doc.image?.asset?._ref ?? "",
+        _type: "reference",
+      },
+      alt: doc.image?.alt ?? "",
+    },
+    sortOrder: doc.sortOrder ?? 0,
+  };
+}
+
+/**
+ * Get a single product category by slug.
+ * Tries Sanity first, falls back to the mock list.
+ */
+export async function getCategoryBySlug(
+  slug: string
+): Promise<ProductCategoryDocument | undefined> {
+  try {
+    const sanityCategory = await fetchCategoryBySlugFromSanity(slug);
+    if (sanityCategory) {
+      return adaptSanityCategory(sanityCategory);
+    }
+  } catch (error) {
+    console.warn(
+      `Failed to fetch category "${slug}" from Sanity, using mock data`,
+      error
+    );
+  }
+  return getMockCategoryBySlug(slug);
 }
 
 export function getCategoryHref(category: ProductCategoryDocument): string {

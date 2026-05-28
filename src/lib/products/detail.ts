@@ -1,4 +1,11 @@
-import { getProductBySlug, getProductsByCategory, products } from "@/data/products";
+import {
+  findMockProductBySlug,
+  findMockProductsByCategory,
+  getProductsByCategory,
+  products,
+} from "@/data/products";
+import { getProductBySlug as fetchSanityProductDetail } from "@/sanity/lib/fetch-all";
+import { sanityToProductDetail } from "@/sanity/adapters/product";
 import type {
   ProductDetail,
   ProductDownload,
@@ -197,24 +204,55 @@ export function enrichToProductDetail(product: ProductListItem): ProductDetail {
   };
 }
 
-export function getProductDetailBySlug(
+/**
+ * Get a fully detailed product (description, features, specs, images, downloads).
+ * Tries Sanity first (using the rich PRODUCT_DETAIL_QUERY) and falls back to
+ * the enriched mock data when Sanity has nothing.
+ */
+export async function getProductDetailBySlug(
   categorySlug: string,
   productSlug: string
-): ProductDetail | undefined {
-  const product = getProductBySlug(categorySlug, productSlug);
-  if (!product) return undefined;
-  return enrichToProductDetail(product);
+): Promise<ProductDetail | undefined> {
+  try {
+    const sanityProduct = await fetchSanityProductDetail(productSlug);
+    if (sanityProduct) {
+      return sanityToProductDetail(sanityProduct);
+    }
+  } catch (error) {
+    console.warn(
+      `Failed to fetch product detail "${productSlug}" from Sanity, using mock data`,
+      error
+    );
+  }
+
+  const mock = findMockProductBySlug(categorySlug, productSlug);
+  if (!mock) return undefined;
+  return enrichToProductDetail(mock);
 }
 
-export function getRelatedProducts(
+/**
+ * Related products in the same category (excluding the current product).
+ * Sources from Sanity-first via getProductsByCategory; falls back to mock.
+ */
+export async function getRelatedProducts(
   product: ProductListItem,
   limit = 3
-): ProductListItem[] {
-  return getProductsByCategory(product.categorySlug)
-    .filter((item) => item.id !== product.id)
-    .slice(0, limit);
+): Promise<ProductListItem[]> {
+  try {
+    const inCategory = await getProductsByCategory(product.categorySlug);
+    return inCategory.filter((item) => item.id !== product.id).slice(0, limit);
+  } catch (error) {
+    console.warn("Failed to load related products", error);
+    return findMockProductsByCategory(product.categorySlug)
+      .filter((item) => item.id !== product.id)
+      .slice(0, limit);
+  }
 }
 
+/**
+ * Static params for SSG. Mock-only is fine — Sanity-only products will be
+ * rendered on demand because Next.js defaults `dynamicParams` to true.
+ */
 export function getAllProductParams(): { slug: string; productSlug: string }[] {
   return products.map((product) => ({
     slug: product.categorySlug,
