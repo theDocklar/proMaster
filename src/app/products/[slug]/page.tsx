@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getCategoryBySlug } from "@/data/productCategories";
+import { getCategoryBySlug as getSanityCategoryBySlug, getProductsByCategory } from "@/sanity/lib/fetch-all";
+import { getCategoryBySlug as getMockCategoryBySlug } from "@/data/productCategories";
+import { getSanityImageUrl } from "@/sanity/lib/image-url";
 
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -11,7 +13,8 @@ type CategoryPageProps = {
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const sanityCategory = await getSanityCategoryBySlug(slug);
+  const category = sanityCategory || getMockCategoryBySlug(slug);
 
   if (!category) {
     return { title: "Category Not Found | Pro Master" };
@@ -25,11 +28,15 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const sanityCategory = await getSanityCategoryBySlug(slug);
+  const category = sanityCategory || getMockCategoryBySlug(slug);
 
   if (!category) {
     notFound();
   }
+
+  const products = await getProductsByCategory(slug);
+  const categoryImageUrl = getSanityImageUrl(category.image, { width: 1200, height: 600, fit: "crop" });
 
   return (
     <>
@@ -67,17 +74,62 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         </header>
 
         <div className="px-12 py-16 max-sm:px-6 max-sm:py-12">
-          <div
-            className="img-ph w-full"
-            style={{ minHeight: 360 }}
-            role="img"
-            aria-label={category.image.alt ?? category.title}
-          >
-            <div className="img-ph-label">{category.image.alt ?? "Category Image"}</div>
-          </div>
-          <p className="mt-8 font-[family-name:var(--mono)] text-xs uppercase tracking-[0.13em] text-[var(--light)]">
-            Product listings for this category will be loaded from Sanity CMS.
-          </p>
+          {categoryImageUrl ? (
+            <img
+              src={categoryImageUrl}
+              alt={category.image?.alt ?? category.title}
+              className="w-full object-cover"
+              style={{ minHeight: 360 }}
+            />
+          ) : (
+            <div
+              className="img-ph w-full"
+              style={{ minHeight: 360 }}
+              role="img"
+              aria-label={category.image?.alt ?? category.title}
+            >
+              <div className="img-ph-label">{category.image?.alt ?? "Category Image"}</div>
+            </div>
+          )}
+
+          {products && products.length > 0 ? (
+            <div className="showcase showcase--products mt-12">
+              {products.map((product: any) => {
+                const productImageUrl = getSanityImageUrl(product.image, { width: 600, height: 400, fit: "crop" });
+                return (
+                  <article className="showcase-col" key={product._id}>
+                    <h2 className="sc-name">{product.name}</h2>
+                    <p className="sc-tag">{product.description || ""}</p>
+                    <div className="sc-image">
+                      {productImageUrl ? (
+                        <img
+                          src={productImageUrl}
+                          alt={product.image?.alt ?? product.name}
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      ) : (
+                        <div
+                          className="img-ph"
+                          style={{ width: "100%", height: "100%" }}
+                          role="img"
+                          aria-label={product.image?.alt ?? product.name}
+                        >
+                          <div className="img-ph-label">Product Image</div>
+                        </div>
+                      )}
+                    </div>
+                    <Link className="sc-link" href={`/products/${slug}/${product.slug?.current || ""}`}>
+                      View details &nbsp;&#8594;
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="mt-8 font-[family-name:var(--mono)] text-xs uppercase tracking-[0.13em] text-[var(--light)]">
+              No products found in this category.
+            </p>
+          )}
         </div>
       </main>
 

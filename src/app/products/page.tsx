@@ -3,7 +3,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CategoryGrid from "@/components/products/CategoryGrid";
-import { productCategories } from "@/data/productCategories";
+import { getProductCategories } from '@/data/productCategories'
 
 export const metadata: Metadata = {
   title: "Products | Pro Master Construction Products",
@@ -11,7 +11,10 @@ export const metadata: Metadata = {
     "Browse Pro Master construction chemical categories — waterproofing, adhesives, repair systems, coatings, and more. ISO certified. UAE & GCC.",
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  // Fetch categories from Sanity (or fallback to mock data)
+  const categories = await getProductCategories()
+
   return (
     <>
       <Header />
@@ -41,7 +44,7 @@ export default function ProductsPage() {
             </div>
           </header>
 
-          <CategoryGrid categories={productCategories} />
+          <CategoryGrid categories={categories} />
         </div>
       </main>
 
