@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import type { ProductFilterOptions, ProductFilterState, ProductSortOption } from "@/types/product";
-import {
-  PRODUCT_SORT_LABELS,
-  toggleFilterValue,
-} from "@/lib/products/listing";
+import { useEffect, useState } from "react";
+import type {
+  ProductFilterOptions,
+  ProductFilterState,
+  ProductSortOption,
+} from "@/types/product";
+import { PRODUCT_SORT_LABELS, toggleFilterValue } from "@/lib/products/listing";
 
 type SidebarProps = {
   search: string;
@@ -27,63 +28,73 @@ type FilterSectionProps = {
   onToggle: (group: keyof ProductFilterState, value: string) => void;
 };
 
-function FilterSection({ title, group, options, selected, onToggle }: FilterSectionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+function FilterSection({
+  title,
+  group,
+  options,
+  selected,
+  onToggle,
+}: FilterSectionProps) {
+  const [isOpen, setIsOpen] = useState(selected.length > 0);
+
+  useEffect(() => {
+    if (selected.length > 0) {
+      setIsOpen(true);
+    }
+  }, [selected.length]);
 
   if (options.length === 0) return null;
 
   return (
-    <div className="border-b border-[var(--border)] last:border-b-0">
+    <div
+      className={`filter-sidebar__accordion-item${isOpen ? " filter-sidebar__accordion-item--open" : ""}`}
+    >
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between py-3 text-left"
+        className="filter-sidebar__accordion-trigger"
         aria-expanded={isOpen}
       >
-        <span className="font-[family-name:var(--mono)] text-[10px] font-bold uppercase tracking-[0.13em] text-[var(--pm-red)]">
-          {title}
+        <span className="filter-sidebar__accordion-title">{title}</span>
+
+        <span className="filter-sidebar__accordion-meta">
+          {selected.length > 0 && (
+            <span className="filter-sidebar__badge">{selected.length}</span>
+          )}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="filter-sidebar__chevron"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
         </span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className={`h-3.5 w-3.5 shrink-0 text-[var(--mid)] transition-transform duration-200 ${isOpen ? "rotate-180" : "rotate-0"}`}
-        >
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
       </button>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateRows: isOpen ? "1fr" : "0fr",
-          transition: "grid-template-rows 220ms ease",
-        }}
-      >
-        <div className="overflow-hidden">
-          <ul className="flex flex-col gap-1 pb-4 pt-1">
+      <div className="filter-sidebar__accordion-panel">
+        <div className="filter-sidebar__accordion-content">
+          <ul className="filter-sidebar__options">
             {options.map((option) => {
               const checked = selected.includes(option);
               const id = `${group}-${option.replace(/\s+/g, "-").toLowerCase()}`;
 
               return (
                 <li key={option}>
-                  <label
-                    htmlFor={id}
-                    className="flex cursor-pointer items-start gap-3 rounded px-2 py-2 text-[13px] text-[var(--mid)] transition-colors hover:bg-[var(--bg)] hover:text-[var(--pm-red)]"
-                  >
+                  <label htmlFor={id} className="filter-sidebar__option">
                     <input
                       id={id}
                       type="checkbox"
                       checked={checked}
                       onChange={() => onToggle(group, option)}
-                      className="mt-0.5 h-[16px] w-[16px] shrink-0 appearance-none border border-[var(--border)] bg-[var(--white)] checked:border-[var(--pm-red)] checked:bg-[var(--pm-red)]"
+                      className="filter-sidebar__checkbox"
                     />
-                    <span className="leading-relaxed">{option}</span>
+                    <span>{option}</span>
                   </label>
                 </li>
               );
@@ -114,25 +125,25 @@ export default function Sidebar({
   };
 
   const activeFilterCount =
-    filters.applicationAreas.length + filters.packaging.length + filters.standards.length;
+    filters.applicationAreas.length +
+    filters.packaging.length +
+    filters.standards.length;
 
   return (
-    <aside className="custom-scrollbar flex flex-col rounded-sm border border-[var(--border)] bg-[var(--white)] shadow-[0_2px_12px_rgba(0,0,0,0.04)] max-lg:h-auto max-lg:max-h-none max-lg:overflow-visible lg:sticky lg:top-[68px] lg:h-[calc(100vh-88px)] lg:max-h-[calc(100vh-88px)] lg:overflow-y-auto">
-      <div className="space-y-6 p-5">
-        <div className="space-y-2 rounded-sm bg-[var(--bg)] p-4">
-          <p className="font-[family-name:var(--mono)] text-[10px] font-bold uppercase tracking-[0.13em] text-[var(--pm-red)]">
-            Refine results
-          </p>
-          <p className="text-[13px] leading-relaxed text-[var(--mid)]">
+    <aside className="filter-sidebar custom-scrollbar">
+      <div className="filter-sidebar__inner">
+        {/* <div className="filter-sidebar__summary">
+          <p className="filter-sidebar__summary-label">Refine results</p>
+          <p className="filter-sidebar__summary-count">
             {totalResults} product{totalResults === 1 ? "" : "s"} found
           </p>
-        </div>
+          <p className="filter-sidebar__summary-hint">
+            Search, sort, and filter this category
+          </p>
+        </div> */}
 
-        <div className="space-y-3">
-          <label
-            htmlFor="product-search"
-            className="block font-[family-name:var(--mono)] text-[10px] font-bold uppercase tracking-[0.13em] text-[var(--pm-red)]"
-          >
+        <section className="filter-sidebar__section">
+          <label htmlFor="product-search" className="filter-sidebar__label">
             Search
           </label>
           <input
@@ -141,48 +152,52 @@ export default function Sidebar({
             value={search}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search by name or SKU…"
-            className="w-full border border-[var(--border)] bg-[var(--white)] px-4 py-3 text-[13px] text-[var(--dark)] outline-none transition-colors placeholder:text-[var(--light)] focus:border-[var(--pm-red)]"
+            className="filter-sidebar__input"
           />
-        </div>
+        </section>
 
-        <div className="space-y-3">
-          <label
-            htmlFor="product-sort"
-            className="block font-[family-name:var(--mono)] text-[10px] font-bold uppercase tracking-[0.13em] text-[var(--pm-red)]"
-          >
+        <section className="filter-sidebar__section">
+          <label htmlFor="product-sort" className="filter-sidebar__label">
             Sort by
           </label>
           <select
             id="product-sort"
             value={sort}
-            onChange={(event) => onSortChange(event.target.value as ProductSortOption)}
-            className="w-full cursor-pointer appearance-none border border-[var(--border)] bg-[var(--white)] px-4 py-3 text-[13px] text-[var(--mid)] outline-none transition-colors focus:border-[var(--pm-red)]"
+            onChange={(event) =>
+              onSortChange(event.target.value as ProductSortOption)
+            }
+            className="filter-sidebar__select"
           >
-            {(Object.keys(PRODUCT_SORT_LABELS) as ProductSortOption[]).map((option) => (
-              <option key={option} value={option}>
-                {PRODUCT_SORT_LABELS[option]}
-              </option>
-            ))}
+            {(Object.keys(PRODUCT_SORT_LABELS) as ProductSortOption[]).map(
+              (option) => (
+                <option key={option} value={option}>
+                  {PRODUCT_SORT_LABELS[option]}
+                </option>
+              ),
+            )}
           </select>
-        </div>
+        </section>
 
-        <div className="space-y-4">
-          <div className="flex items-center justify-between gap-4">
-            <p className="font-[family-name:var(--mono)] text-[10px] font-bold uppercase tracking-[0.13em] text-[var(--pm-red)]">
-              Filters
-            </p>
+        <section className="filter-sidebar__section filter-sidebar__section--filters">
+          <div className="filter-sidebar__section-header">
+            <div>
+              <p className="filter-sidebar__label filter-sidebar__label--inline">
+                Filters
+              </p>
+            </div>
+
             {(activeFilterCount > 0 || search.trim().length > 0) && (
               <button
                 type="button"
                 onClick={onClearFilters}
-                className="text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--mid)] transition-colors hover:text-[var(--pm-red)]"
+                className="filter-sidebar__clear"
               >
                 Clear all
               </button>
             )}
           </div>
 
-          <div className="rounded border border-[var(--border)] px-3">
+          <div className="filter-sidebar__accordion">
             <FilterSection
               title="Application area"
               group="applicationAreas"
@@ -205,7 +220,7 @@ export default function Sidebar({
               onToggle={handleToggle}
             />
           </div>
-        </div>
+        </section>
       </div>
     </aside>
   );

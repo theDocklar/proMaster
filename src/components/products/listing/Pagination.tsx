@@ -31,65 +31,52 @@ export default function Pagination({ page, totalPages, onPageChange }: Paginatio
   const isSinglePage = totalPages <= 1;
 
   return (
-    <section
-      aria-label="Product pagination"
-      className="mt-12 mb-6 rounded-sm border border-gray-200 bg-[var(--white)] px-4 py-8 shadow-[0_1px_8px_rgba(0,0,0,0.04)] sm:px-8"
-    >
-      <div className="mx-auto flex max-w-2xl flex-col items-center gap-5">
-        <p className="font-[family-name:var(--mono)] text-[11px] uppercase tracking-[0.13em] text-[var(--light)]">
-          Page {page} of {totalPages}
-        </p>
+    <section aria-label="Product pagination" className="product-pagination">
+      <nav className="product-pagination__nav">
+        <button
+          type="button"
+          onClick={() => onPageChange(page - 1)}
+          disabled={page <= 1}
+          className="product-pagination__control"
+        >
+          Previous
+        </button>
 
-        <nav className="flex flex-wrap items-center justify-center gap-2">
-          <button
-            type="button"
-            onClick={() => onPageChange(page - 1)}
-            disabled={page <= 1}
-            className="border border-gray-200 bg-[var(--white)] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--mid)] transition-colors enabled:hover:border-[var(--pm-red)] enabled:hover:text-[var(--pm-red)] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Previous
-          </button>
+        {!isSinglePage && (
+          <div className="product-pagination__pages">
+            {pages.map((item, index) =>
+              item === "ellipsis" ? (
+                <span
+                  key={`ellipsis-${index}`}
+                  className="product-pagination__ellipsis"
+                  aria-hidden="true"
+                >
+                  …
+                </span>
+              ) : (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => onPageChange(item)}
+                  aria-current={item === page ? "page" : undefined}
+                  className={`product-pagination__page${item === page ? " product-pagination__page--active" : ""}`}
+                >
+                  {item}
+                </button>
+              ),
+            )}
+          </div>
+        )}
 
-          {!isSinglePage && (
-            <div className="flex flex-wrap items-center justify-center gap-1.5">
-              {pages.map((item, index) =>
-                item === "ellipsis" ? (
-                  <span
-                    key={`ellipsis-${index}`}
-                    className="px-2 font-[family-name:var(--mono)] text-xs text-[var(--light)]"
-                  >
-                    …
-                  </span>
-                ) : (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => onPageChange(item)}
-                    aria-current={item === page ? "page" : undefined}
-                    className={[
-                      "min-w-10 border px-3 py-2.5 text-[11px] font-bold uppercase tracking-[0.08em] transition-colors",
-                      item === page
-                        ? "border-[var(--pm-red)] bg-[var(--pm-red)] text-[var(--white)]"
-                        : "border-gray-200 bg-[var(--white)] text-[var(--mid)] hover:border-[var(--pm-red)] hover:text-[var(--pm-red)]",
-                    ].join(" ")}
-                  >
-                    {item}
-                  </button>
-                )
-              )}
-            </div>
-          )}
-
-          <button
-            type="button"
-            onClick={() => onPageChange(page + 1)}
-            disabled={page >= totalPages}
-            className="border border-gray-200 bg-[var(--white)] px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--mid)] transition-colors enabled:hover:border-[var(--pm-red)] enabled:hover:text-[var(--pm-red)] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Next
-          </button>
-        </nav>
-      </div>
+        <button
+          type="button"
+          onClick={() => onPageChange(page + 1)}
+          disabled={page >= totalPages}
+          className="product-pagination__control"
+        >
+          Next
+        </button>
+      </nav>
     </section>
   );
 }

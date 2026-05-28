@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CategoryGrid from "@/components/products/CategoryGrid";
@@ -19,13 +18,7 @@ export default async function ProductsPage() {
     <>
       <Header />
 
-      <main className="pt-[52px]">
-        <nav aria-label="Breadcrumb" className="breadcrumb">
-          <Link href="/">Home</Link>
-          <span className="bc-sep">/</span>
-          <span>Products</span>
-        </nav>
-
+      <main className="page-main">
         <div className="resources-section">
           <header className="resources-header">
             <div className="rh-left">

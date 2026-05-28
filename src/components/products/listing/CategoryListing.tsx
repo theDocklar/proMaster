@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { ProductFilterState, ProductListItem, ProductSortOption } from "@/types/product";
+import type {
+  ProductFilterState,
+  ProductListItem,
+  ProductSortOption,
+} from "@/types/product";
 import {
   getFilterOptions,
   hasActiveFilters,
@@ -44,7 +48,7 @@ export default function CategoryListing({
         page,
         pageSize,
       }),
-    [products, search, sort, filters, page, pageSize]
+    [products, search, sort, filters, page, pageSize],
   );
 
   useEffect(() => {
@@ -65,7 +69,7 @@ export default function CategoryListing({
   };
 
   return (
-    <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10">
+    <div className="category-listing">
       <Sidebar
         search={search}
         sort={sort}
@@ -78,8 +82,10 @@ export default function CategoryListing({
         onClearFilters={handleClearFilters}
       />
 
-      <div className="min-w-0">
-        {hasActiveFilters(search, filters) && (
+      <div
+        className={`category-listing__content min-w-0${listing.totalItems === 0 ? " category-listing__content--empty" : ""}`}
+      >
+        {hasActiveFilters(search, filters) && listing.totalItems > 0 && (
           <p className="mb-6 text-[13px] leading-relaxed text-[var(--mid)]">
             Filtered and sorted results for this category.
           </p>
