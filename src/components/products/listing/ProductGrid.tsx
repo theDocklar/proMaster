@@ -7,15 +7,20 @@ type ProductGridProps = {
   totalItems: number;
 };
 
-export default function ProductGrid({ products, categorySlug, totalItems }: ProductGridProps) {
+export default function ProductGrid({
+  products,
+  categorySlug,
+  totalItems,
+}: ProductGridProps) {
   if (products.length === 0) {
     return (
-      <div className="rounded-sm border border-gray-200 bg-[var(--white)] px-8 py-16 text-center shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
-        <p className="mb-2 font-[family-name:var(--mono)] text-[11px] font-bold uppercase tracking-[0.13em] text-[var(--pm-red)]">
+      <div className="product-grid__empty">
+        <p className="mb-2 text-center font-[family-name:var(--mono)] text-[11px] font-bold uppercase tracking-[0.13em] text-[var(--pm-red)]">
           No results
         </p>
-        <p className="text-sm leading-[1.7] text-[var(--mid)]">
-          No products match your current search or filters. Try adjusting your criteria.
+        <p className="mx-auto max-w-sm text-center text-sm leading-[1.7] text-[var(--mid)]">
+          No products match your current search or filters. Try adjusting your
+          criteria.
         </p>
       </div>
     );
@@ -29,7 +34,11 @@ export default function ProductGrid({ products, categorySlug, totalItems }: Prod
 
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 xl:grid-cols-3">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} categorySlug={categorySlug} />
+          <ProductCard
+            key={product.id}
+            product={product}
+            categorySlug={categorySlug}
+          />
         ))}
       </div>
     </div>

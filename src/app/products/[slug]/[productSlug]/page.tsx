@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -55,17 +54,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <>
       <Header />
 
-      <main className="pt-28">
-        <nav aria-label="Breadcrumb" className="breadcrumb">
-          <Link href="/">Home</Link>
-          <span className="bc-sep">/</span>
-          <Link href="/products">Products</Link>
-          <span className="bc-sep">/</span>
-          <Link href={`/products/${slug}`}>{category.shortTitle ?? category.title}</Link>
-          <span className="bc-sep">/</span>
-          <span>{product.sku}</span>
-        </nav>
-
+      <main className="page-main">
         <ProductDetailTabs />
 
         <div className="detail-wrap">
