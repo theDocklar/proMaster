@@ -26,7 +26,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug, productSlug } = await params;
-  const product = getProductDetailBySlug(slug, productSlug);
+  const product = await getProductDetailBySlug(slug, productSlug);
 
   if (!product) {
     return { title: "Product Not Found | Pro Master" };
@@ -40,14 +40,16 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug, productSlug } = await params;
-  const category = getCategoryBySlug(slug);
-  const product = getProductDetailBySlug(slug, productSlug);
+  const [category, product] = await Promise.all([
+    getCategoryBySlug(slug),
+    getProductDetailBySlug(slug, productSlug),
+  ]);
 
   if (!category || !product) {
     notFound();
   }
 
-  const relatedProducts = getRelatedProducts(product);
+  const relatedProducts = await getRelatedProducts(product);
 
   return (
     <>

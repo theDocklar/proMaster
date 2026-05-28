@@ -1,4 +1,9 @@
 import type { ProductListItem } from "@/types/product";
+import {
+  getProductsByCategory as fetchProductsByCategoryFromSanity,
+  getProductBySlug as fetchProductBySlugFromSanity,
+} from "@/sanity/lib/fetch-all";
+import { sanityToProductListItem } from "@/sanity/adapters/product";
 
 type ProductSeed = Omit<ProductListItem, "id" | "createdAt">;
 
@@ -714,17 +719,63 @@ export const products: ProductListItem[] = allSeeds.map((seed, index) =>
   createProduct(seed, index)
 );
 
-export function getProductsByCategory(categorySlug: string): ProductListItem[] {
+/** Synchronous mock-only lookup used as a fallback inside async resolvers. */
+export function findMockProductsByCategory(categorySlug: string): ProductListItem[] {
   return products
     .filter((product) => product.categorySlug === categorySlug)
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export function getProductBySlug(
+/** Synchronous mock-only lookup used as a fallback inside async resolvers. */
+export function findMockProductBySlug(
   categorySlug: string,
   productSlug: string
 ): ProductListItem | undefined {
   return products.find(
     (product) => product.categorySlug === categorySlug && product.slug === productSlug
   );
+}
+
+/**
+ * Get all products in a category. Tries Sanity first, falls back to mock data.
+ */
+export async function getProductsByCategory(
+  categorySlug: string
+): Promise<ProductListItem[]> {
+  try {
+    const sanityProducts = await fetchProductsByCategoryFromSanity(categorySlug);
+    if (Array.isArray(sanityProducts) && sanityProducts.length > 0) {
+      return sanityProducts.map((doc: any) =>
+        sanityToProductListItem(doc, categorySlug)
+      );
+    }
+  } catch (error) {
+    console.warn(
+      `Failed to fetch products for category "${categorySlug}" from Sanity, using mock data`,
+      error
+    );
+  }
+  return findMockProductsByCategory(categorySlug);
+}
+
+/**
+ * Get a single product by category + product slug.
+ * Tries Sanity first, falls back to mock data.
+ */
+export async function getProductBySlug(
+  categorySlug: string,
+  productSlug: string
+): Promise<ProductListItem | undefined> {
+  try {
+    const sanityProduct = await fetchProductBySlugFromSanity(productSlug);
+    if (sanityProduct) {
+      return sanityToProductListItem(sanityProduct, categorySlug);
+    }
+  } catch (error) {
+    console.warn(
+      `Failed to fetch product "${productSlug}" from Sanity, using mock data`,
+      error
+    );
+  }
+  return findMockProductBySlug(categorySlug, productSlug);
 }

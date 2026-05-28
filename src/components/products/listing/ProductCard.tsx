@@ -10,9 +10,19 @@ export default function ProductCard({ product, categorySlug }: ProductCardProps)
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-[var(--white)] shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition-all duration-200 hover:border-[var(--pm-red)] hover:shadow-[0_8px_28px_rgba(200,0,0,0.08)]">
       <div className="relative aspect-[4/3] overflow-hidden rounded-t-lg border-b border-gray-100 bg-[var(--bg)]">
-        <div className="img-ph h-full w-full">
-          <div className="img-ph-label">Product Image</div>
-        </div>
+        {product.image.url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={product.image.url}
+            alt={product.image.alt || product.name}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            loading="lazy"
+          />
+        ) : (
+          <div className="img-ph h-full w-full">
+            <div className="img-ph-label">Product Image</div>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-6">
