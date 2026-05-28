@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductDetailTabs from "@/components/ProductDetailTabs";
 import InquiryForm from "@/components/InquiryForm";
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -14,24 +15,31 @@ export default function Home() {
         <div className="hero-newsletter">
           <div className="hn-label">Newsletter</div>
           <div className="hn-input-row">
-            <input className="hn-input" type="email" placeholder="your@email.com" />
+            <input
+              className="hn-input"
+              type="email"
+              placeholder="your@email.com"
+            />
             <button className="hn-arrow">&#8594;</button>
           </div>
           <div className="hn-note">
-            By signing up, I agree with the data protection policy of Pro Master.
+            By signing up, I agree with the data protection policy of Pro
+            Master.
           </div>
         </div>
 
         <div className="hero-text">
           <div className="hero-eyebrow">Trusted Supplier — UAE &amp; GCC</div>
           <h1 className="hero-h1">
-            Construction chemicals<br />
-            built for the<br />
+            Construction chemicals
+            <br />
+            built for the
+            <br />
             Gulf climate.
           </h1>
           <p className="hero-sub">
-            Waterproofing, adhesives, coatings, and repair systems. ISO certified. Distributed
-            across the GCC.
+            Waterproofing, adhesives, coatings, and repair systems. ISO
+            certified. Distributed across the GCC.
           </p>
           <a href="#products" className="hero-cta">
             Explore Products &nbsp;&#8594;
@@ -39,7 +47,10 @@ export default function Home() {
         </div>
 
         <div className="hero-image">
-          <div className="img-ph" style={{ width: "100%", height: "100%", minHeight: 600 }}>
+          <div
+            className="img-ph"
+            style={{ width: "100%", height: "100%", minHeight: 600 }}
+          >
             <div className="img-ph-label">Hero Product Image</div>
           </div>
         </div>
@@ -48,15 +59,27 @@ export default function Home() {
       {/* ── PRODUCT SHOWCASE ── */}
       <div className="showcase" id="products">
         {[
-          { name: "Waterproofing", tag: "Crystalline, membrane & cementitious systems" },
-          { name: "Tile Adhesives", tag: "C1, C2, C2S1, C2S2 for all substrates" },
-          { name: "Concrete Repair", tag: "Structural mortars and protection systems" },
+          {
+            name: "Waterproofing",
+            tag: "Crystalline, membrane & cementitious systems",
+          },
+          {
+            name: "Tile Adhesives",
+            tag: "C1, C2, C2S1, C2S2 for all substrates",
+          },
+          {
+            name: "Concrete Repair",
+            tag: "Structural mortars and protection systems",
+          },
         ].map(({ name, tag }) => (
           <div className="showcase-col" key={name}>
             <div className="sc-name">{name}</div>
             <div className="sc-tag">{tag}</div>
             <div className="sc-image">
-              <div className="img-ph" style={{ width: "100%", height: "100%", minHeight: 260 }}>
+              <div
+                className="img-ph"
+                style={{ width: "100%", height: "100%", minHeight: 260 }}
+              >
                 <div className="img-ph-label">Product Image</div>
               </div>
             </div>
@@ -96,13 +119,15 @@ export default function Home() {
           <div className="detail-info">
             <div className="di-cat">Crystalline Waterproofing System</div>
             <div className="di-name">
-              PM-CRYSTAL 300<br />
+              PM-CRYSTAL 300
+              <br />
               Penetrating Crystalline Slurry
             </div>
             <div className="di-desc">
-              Single-component, cement-based crystalline compound that reacts with moisture to form
-              insoluble crystals within the concrete matrix — permanently blocking capillaries and
-              hairline cracks up to 0.4mm.
+              Single-component, cement-based crystalline compound that reacts
+              with moisture to form insoluble crystals within the concrete
+              matrix — permanently blocking capillaries and hairline cracks up
+              to 0.4mm.
             </div>
 
             <div className="di-features">
@@ -113,7 +138,9 @@ export default function Home() {
                 "Applicable to green or cured concrete",
                 "Compliant with EN 1504-2 Surface Protection",
               ].map((feat) => (
-                <div className="di-feat-item" key={feat}>{feat}</div>
+                <div className="di-feat-item" key={feat}>
+                  {feat}
+                </div>
               ))}
             </div>
 
@@ -133,11 +160,18 @@ export default function Home() {
             </div>
 
             <div className="di-area-row">
-              {["Basement Walls", "Water Tanks", "Swimming Pools", "Tunnels", "Foundations", "Lift Pits"].map(
-                (area) => (
-                  <span className="di-area-tag" key={area}>{area}</span>
-                )
-              )}
+              {[
+                "Basement Walls",
+                "Water Tanks",
+                "Swimming Pools",
+                "Tunnels",
+                "Foundations",
+                "Lift Pits",
+              ].map((area) => (
+                <span className="di-area-tag" key={area}>
+                  {area}
+                </span>
+              ))}
             </div>
 
             <div className="di-downloads">
@@ -158,7 +192,10 @@ export default function Home() {
       <div className="about-split" id="about">
         <div className="about-left">
           <div className="about-img-top">
-            <div className="img-ph" style={{ width: "100%", height: "100%", minHeight: 400 }}>
+            <div
+              className="img-ph"
+              style={{ width: "100%", height: "100%", minHeight: 400 }}
+            >
               <div className="img-ph-label">Company / Site Image</div>
             </div>
           </div>
@@ -180,12 +217,13 @@ export default function Home() {
           <div className="eyebrow">About Pro Master</div>
           <h2>Engineered for the GCC&apos;s toughest conditions.</h2>
           <p>
-            UAE-based supplier of premium construction chemicals and building materials — serving
-            contractors, developers, and distributors across the GCC for over 15 years.
+            UAE-based supplier of premium construction chemicals and building
+            materials — serving contractors, developers, and distributors across
+            the GCC for over 15 years.
           </p>
           <p>
-            Every product is engineered to perform in the extreme heat, humidity, and saline
-            conditions of the Gulf.
+            Every product is engineered to perform in the extreme heat,
+            humidity, and saline conditions of the Gulf.
           </p>
           <div className="about-list">
             {[
@@ -195,7 +233,9 @@ export default function Home() {
               "Full TDS, SDS, and project submittal support",
               "Compliant with MOEI, ASTM, EN, and BS standards",
             ].map((item) => (
-              <div className="al-item" key={item}>{item}</div>
+              <div className="al-item" key={item}>
+                {item}
+              </div>
             ))}
           </div>
           <a href="#" className="about-cta">
@@ -207,11 +247,31 @@ export default function Home() {
       {/* ── CERTIFICATIONS ── */}
       <div className="certs-row">
         {[
-          { abbr: "ISO", name: "ISO 9001:2015", desc: "Quality management — manufacturing and supply chain" },
-          { abbr: "MOEI", name: "UAE Ministry of Energy", desc: "Product approvals for selected waterproofing systems" },
-          { abbr: "ASTM", name: "ASTM International", desc: "Tested to ASTM C1202, C109, and C882 standards" },
-          { abbr: "EN / BS", name: "EN 1504 / BS 6920", desc: "European and British Standards for concrete protection" },
-          { abbr: "WRAS", name: "WRAS Approval", desc: "Potable water contact approval for tank waterproofing" },
+          {
+            abbr: "ISO",
+            name: "ISO 9001:2015",
+            desc: "Quality management — manufacturing and supply chain",
+          },
+          {
+            abbr: "MOEI",
+            name: "UAE Ministry of Energy",
+            desc: "Product approvals for selected waterproofing systems",
+          },
+          {
+            abbr: "ASTM",
+            name: "ASTM International",
+            desc: "Tested to ASTM C1202, C109, and C882 standards",
+          },
+          {
+            abbr: "EN / BS",
+            name: "EN 1504 / BS 6920",
+            desc: "European and British Standards for concrete protection",
+          },
+          {
+            abbr: "WRAS",
+            name: "WRAS Approval",
+            desc: "Potable water contact approval for tank waterproofing",
+          },
         ].map(({ abbr, name, desc }) => (
           <div className="cert-col" key={abbr}>
             <div className="cert-abbr">{abbr}</div>
@@ -225,23 +285,63 @@ export default function Home() {
       <div className="resources-section" id="resources">
         <div className="resources-header">
           <div className="rh-left">
-            <h2>Data Sheets<br />&amp; Documentation.</h2>
+            <h2>
+              Data Sheets
+              <br />
+              &amp; Documentation.
+            </h2>
           </div>
           <div className="rh-right">
             <p>
-              Access the full technical document library. All documents are free to download — no
-              sign-up required. Updated weekly.
+              Access the full technical document library. All documents are free
+              to download — no sign-up required. Updated weekly.
             </p>
           </div>
         </div>
         <div className="res-grid">
           {[
-            { num: "200+", type: "PDF Library", title: "Technical Data Sheets", desc: "Product composition, mechanical properties, application method, mixing ratios, and performance data.", link: "Browse TDS" },
-            { num: "200+", type: "PDF Library", title: "Safety Data Sheets", desc: "GHS/SDS/MSDS documents — hazard info, handling, storage, and first aid for every product.", link: "Browse SDS" },
-            { num: "12", type: "Guides", title: "Application Guides", desc: "Illustrated installation manuals for waterproofing systems, floor coatings, and repair mortars.", link: "Browse Guides" },
-            { num: "8", type: "Marketing", title: "Product Brochures", desc: "Category and system brochures for submittal, specification, and client presentations.", link: "Browse" },
-            { num: "50+", type: "Certificates", title: "Test Reports", desc: "Third-party laboratory certificates issued under ASTM, EN, and UAE standard references.", link: "Browse" },
-            { num: "30+", type: "Case Studies", title: "Project Documentation", desc: "Documented applications on landmark UAE projects with performance data and consultant references.", link: "Browse" },
+            {
+              num: "200+",
+              type: "PDF Library",
+              title: "Technical Data Sheets",
+              desc: "Product composition, mechanical properties, application method, mixing ratios, and performance data.",
+              link: "Browse TDS",
+            },
+            {
+              num: "200+",
+              type: "PDF Library",
+              title: "Safety Data Sheets",
+              desc: "GHS/SDS/MSDS documents — hazard info, handling, storage, and first aid for every product.",
+              link: "Browse SDS",
+            },
+            {
+              num: "12",
+              type: "Guides",
+              title: "Application Guides",
+              desc: "Illustrated installation manuals for waterproofing systems, floor coatings, and repair mortars.",
+              link: "Browse Guides",
+            },
+            {
+              num: "8",
+              type: "Marketing",
+              title: "Product Brochures",
+              desc: "Category and system brochures for submittal, specification, and client presentations.",
+              link: "Browse",
+            },
+            {
+              num: "50+",
+              type: "Certificates",
+              title: "Test Reports",
+              desc: "Third-party laboratory certificates issued under ASTM, EN, and UAE standard references.",
+              link: "Browse",
+            },
+            {
+              num: "30+",
+              type: "Case Studies",
+              title: "Project Documentation",
+              desc: "Documented applications on landmark UAE projects with performance data and consultant references.",
+              link: "Browse",
+            },
           ].map(({ num, type, title, desc, link }) => (
             <div className="res-col" key={title}>
               <div className="rc-num">{num}</div>
@@ -259,7 +359,10 @@ export default function Home() {
         <div className="projects-header">
           <div className="ph-left">
             <h2>Featured Projects.</h2>
-            <p>Specified and applied on landmark construction projects across the UAE and GCC.</p>
+            <p>
+              Specified and applied on landmark construction projects across the
+              UAE and GCC.
+            </p>
           </div>
           <div className="ph-right">
             <a href="#">All Projects &#8594;</a>
@@ -268,11 +371,36 @@ export default function Home() {
 
         <div className="proj-list">
           {[
-            { idx: "01 / Dubai", name: "Dubai Marina Mixed-Use Tower", tags: ["Waterproofing", "Below-grade", "AECOM"], year: "2024" },
-            { idx: "02 / Abu Dhabi", name: "Government Authority Headquarters", tags: ["Epoxy Flooring", "4,500 m²"], year: "2023" },
-            { idx: "03 / Sharjah", name: "Industrial Plant Structural Restoration", tags: ["Concrete Repair", "EN 1504-3 R3"], year: "2024" },
-            { idx: "04 / Ras Al Khaimah", name: "Luxury Resort Pool Complex", tags: ["Waterproofing", "WRAS Certified", "8 Pools"], year: "2023" },
-            { idx: "05 / Dubai", name: "Metro Expansion Underground Station", tags: ["Crystalline", "Injection", "Infrastructure"], year: "2022" },
+            {
+              idx: "01 / Dubai",
+              name: "Dubai Marina Mixed-Use Tower",
+              tags: ["Waterproofing", "Below-grade", "AECOM"],
+              year: "2024",
+            },
+            {
+              idx: "02 / Abu Dhabi",
+              name: "Government Authority Headquarters",
+              tags: ["Epoxy Flooring", "4,500 m²"],
+              year: "2023",
+            },
+            {
+              idx: "03 / Sharjah",
+              name: "Industrial Plant Structural Restoration",
+              tags: ["Concrete Repair", "EN 1504-3 R3"],
+              year: "2024",
+            },
+            {
+              idx: "04 / Ras Al Khaimah",
+              name: "Luxury Resort Pool Complex",
+              tags: ["Waterproofing", "WRAS Certified", "8 Pools"],
+              year: "2023",
+            },
+            {
+              idx: "05 / Dubai",
+              name: "Metro Expansion Underground Station",
+              tags: ["Crystalline", "Injection", "Infrastructure"],
+              year: "2022",
+            },
           ].map(({ idx, name, tags, year }) => (
             <div className="proj-row" key={idx}>
               <div>
@@ -281,7 +409,11 @@ export default function Home() {
               <div>
                 <div className="pr-name">{name}</div>
                 <div className="pr-tags">
-                  {tags.map((t) => <span className="pr-tag" key={t}>{t}</span>)}
+                  {tags.map((t) => (
+                    <span className="pr-tag" key={t}>
+                      {t}
+                    </span>
+                  ))}
                 </div>
               </div>
               <div className="pr-meta">{year}</div>
@@ -291,9 +423,21 @@ export default function Home() {
 
         <div className="proj-grid-visual">
           {[
-            { type: "Waterproofing — Dubai", name: "Dubai Marina Tower", loc: "Dubai Marina, UAE — 2024" },
-            { type: "Flooring — Abu Dhabi", name: "Government Authority HQ", loc: "Abu Dhabi, UAE — 2023" },
-            { type: "Infrastructure — Dubai", name: "Metro Expansion Station", loc: "Dubai, UAE — 2022" },
+            {
+              type: "Waterproofing — Dubai",
+              name: "Dubai Marina Tower",
+              loc: "Dubai Marina, UAE — 2024",
+            },
+            {
+              type: "Flooring — Abu Dhabi",
+              name: "Government Authority HQ",
+              loc: "Abu Dhabi, UAE — 2023",
+            },
+            {
+              type: "Infrastructure — Dubai",
+              name: "Metro Expansion Station",
+              loc: "Dubai, UAE — 2022",
+            },
           ].map(({ type, name, loc }) => (
             <div className="pgv-card" key={name}>
               <div className="img-ph" style={{ height: 280 }}>
@@ -314,12 +458,13 @@ export default function Home() {
         <div className="inq-left">
           <div className="eyebrow">Get In Touch</div>
           <h2>
-            How can we<br />
+            How can we
+            <br />
             help you?
           </h2>
           <p>
-            Our team responds within one business day. Choose the inquiry type that best describes
-            your need.
+            Our team responds within one business day. Choose the inquiry type
+            that best describes your need.
           </p>
           <div className="inq-types">
             {[
@@ -346,7 +491,9 @@ export default function Home() {
       {/* ── FLOATING WHATSAPP ── */}
       <div className="wa-float">
         <div className="wa-pill">WhatsApp</div>
-        <div className="wa-circle">WA</div>
+        <div className="wa-circle">
+          <FaWhatsapp color="white" size={24} />
+        </div>
       </div>
     </>
   );
