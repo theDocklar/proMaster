@@ -3,13 +3,11 @@ import ProductCard from "@/components/products/listing/ProductCard";
 
 type ProductGridProps = {
   products: ProductListItem[];
-  categorySlug: string;
   totalItems: number;
 };
 
 export default function ProductGrid({
   products,
-  categorySlug,
   totalItems,
 }: ProductGridProps) {
   if (products.length === 0) {
@@ -34,11 +32,7 @@ export default function ProductGrid({
 
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 xl:grid-cols-3">
         {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            categorySlug={categorySlug}
-          />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>

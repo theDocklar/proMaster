@@ -14,23 +14,14 @@ export default function Header() {
   return (
     <header className={`site-header${scrolled ? " scrolled" : ""}`}>
       <div className="nav-row">
-        <a href="" className="nav-logo">
+        <Link href="/" className="nav-logo">
           Pro <span>Master</span>
-        </a>
+        </Link>
 
         <nav className="nav-groups">
           <div className="nav-group">
             <Link className="nav-group-label" href="/products">Products</Link>
-            <div className="nav-dropdown">
-              <a href="#products">Waterproofing Systems</a>
-              <a href="#products">Tile Adhesives</a>
-              <a href="#products">Concrete Repair</a>
-              <a href="#products">Sealants</a>
-              <a href="#products">Coatings</a>
-              <a href="#products">Admixtures</a>
-              <a href="#products">Flooring</a>
-              <a href="#products">Bonding &amp; Grouting</a>
-            </div>
+            
           </div>
           <div className="nav-group">
             <span className="nav-group-label">Company</span>

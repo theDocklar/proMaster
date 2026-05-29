@@ -31,6 +31,10 @@ export function filterProducts(
       product.sku.toLowerCase().includes(query) ||
       product.shortDescription.toLowerCase().includes(query);
 
+    const matchesCategory =
+      filters.categories.length === 0 ||
+      filters.categories.includes(product.categorySlug);
+
     const matchesApplication =
       filters.applicationAreas.length === 0 ||
       filters.applicationAreas.some((area) => product.applicationAreas.includes(area));
@@ -43,7 +47,13 @@ export function filterProducts(
       filters.standards.length === 0 ||
       filters.standards.some((standard) => product.standards.includes(standard));
 
-    return matchesSearch && matchesApplication && matchesPackaging && matchesStandards;
+    return (
+      matchesSearch &&
+      matchesCategory &&
+      matchesApplication &&
+      matchesPackaging &&
+      matchesStandards
+    );
   });
 }
 
@@ -111,6 +121,7 @@ export function hasActiveFilters(
 ): boolean {
   return (
     search.trim().length > 0 ||
+    filters.categories.length > 0 ||
     filters.applicationAreas.length > 0 ||
     filters.packaging.length > 0 ||
     filters.standards.length > 0

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type {
+  ProductCategoryOption,
   ProductFilterState,
   ProductListItem,
   ProductSortOption,
@@ -15,26 +16,33 @@ import Sidebar from "@/components/products/listing/Sidebar";
 import ProductGrid from "@/components/products/listing/ProductGrid";
 import Pagination from "@/components/products/listing/Pagination";
 
-type CategoryListingProps = {
-  categorySlug: string;
+type ProductListingProps = {
   products: ProductListItem[];
+  categoryOptions: ProductCategoryOption[];
+  initialCategorySlug?: string;
   pageSize?: number;
 };
 
-const EMPTY_FILTERS: ProductFilterState = {
-  applicationAreas: [],
-  packaging: [],
-  standards: [],
-};
+function buildInitialFilters(initialCategorySlug?: string): ProductFilterState {
+  return {
+    categories: initialCategorySlug ? [initialCategorySlug] : [],
+    applicationAreas: [],
+    packaging: [],
+    standards: [],
+  };
+}
 
-export default function CategoryListing({
-  categorySlug,
+export default function ProductListing({
   products,
+  categoryOptions,
+  initialCategorySlug,
   pageSize = 6,
-}: CategoryListingProps) {
+}: ProductListingProps) {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<ProductSortOption>("name-asc");
-  const [filters, setFilters] = useState<ProductFilterState>(EMPTY_FILTERS);
+  const [filters, setFilters] = useState<ProductFilterState>(() =>
+    buildInitialFilters(initialCategorySlug),
+  );
   const [page, setPage] = useState(1);
 
   const filterOptions = useMemo(() => getFilterOptions(products), [products]);
@@ -63,7 +71,7 @@ export default function CategoryListing({
 
   const handleClearFilters = () => {
     setSearch("");
-    setFilters(EMPTY_FILTERS);
+    setFilters(buildInitialFilters());
     setSort("name-asc");
     setPage(1);
   };
@@ -75,7 +83,7 @@ export default function CategoryListing({
         sort={sort}
         filters={filters}
         filterOptions={filterOptions}
-        totalResults={listing.totalItems}
+        categoryOptions={categoryOptions}
         onSearchChange={setSearch}
         onSortChange={setSort}
         onFiltersChange={setFilters}
@@ -87,15 +95,11 @@ export default function CategoryListing({
       >
         {hasActiveFilters(search, filters) && listing.totalItems > 0 && (
           <p className="mb-6 text-[13px] leading-relaxed text-[var(--mid)]">
-            Filtered and sorted results for this category.
+            Filtered and sorted results.
           </p>
         )}
 
-        <ProductGrid
-          products={listing.items}
-          categorySlug={categorySlug}
-          totalItems={listing.totalItems}
-        />
+        <ProductGrid products={listing.items} totalItems={listing.totalItems} />
 
         {listing.totalItems > 0 && (
           <Pagination
