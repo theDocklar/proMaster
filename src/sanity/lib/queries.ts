@@ -286,7 +286,12 @@ export const PROJECT_DETAIL_QUERY = `
       hotspot,
       crop
     },
-    "products": products[]->{_id, name, slug, category->{title}},
+    "products": products[]->{
+      _id,
+      name,
+      slug,
+      "categorySlug": category->slug.current
+    },
     "certifications": certifications[]->{_id, abbr, name},
     clientRef
   }
