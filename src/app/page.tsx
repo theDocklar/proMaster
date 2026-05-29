@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductDetailTabs from "@/components/ProductDetailTabs";
@@ -365,7 +366,7 @@ export default function Home() {
             </p>
           </div>
           <div className="ph-right">
-            <a href="#">All Projects &#8594;</a>
+            <Link href="/projects">All Projects &#8594;</Link>
           </div>
         </div>
 

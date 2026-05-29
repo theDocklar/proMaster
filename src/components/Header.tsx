@@ -36,7 +36,7 @@ export default function Header() {
             <span className="nav-group-label">Company</span>
             <div className="nav-dropdown">
               <a href="#about">About</a>
-              <a href="#projects">Projects</a>
+              <Link href="/projects">Projects</Link>
               <a href="#contact">Distributors</a>
               <a href="#contact">Careers</a>
             </div>
