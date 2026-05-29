@@ -1,6 +1,11 @@
 import BackToTop from "@/components/BackToTop";
+import { getCategoryHref, productCategories } from "@/data/productCategories";
 
 export default function Footer() {
+  const sortedCategories = [...productCategories].sort(
+    (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0),
+  );
+
   return (
     <>
       <div className="pre-footer">
@@ -25,18 +30,10 @@ export default function Footer() {
         <div className="pf-col">
           <h4>Products</h4>
           <div className="pf-links">
-            {[
-              "Waterproofing Systems",
-              "Tile Adhesives & Grouts",
-              "Concrete Repair",
-              "Sealants & Joints",
-              "Coatings",
-              "Admixtures",
-              "Flooring",
-              "Bonding & Grouting",
-            ].map((l) => (
-              <a href="#" key={l}>
-                {l}
+            <a href="/products">All Products</a>
+            {sortedCategories.map((category) => (
+              <a href={getCategoryHref(category)} key={category._id}>
+                {category.shortTitle ?? category.title}
               </a>
             ))}
           </div>

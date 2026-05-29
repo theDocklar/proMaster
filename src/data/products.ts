@@ -1,5 +1,6 @@
 import type { ProductListItem } from "@/types/product";
 import {
+  getAllProducts as fetchAllProductsFromSanity,
   getProductsByCategory as fetchProductsByCategoryFromSanity,
   getProductBySlug as fetchProductBySlugFromSanity,
 } from "@/sanity/lib/fetch-all";
@@ -734,6 +735,22 @@ export function findMockProductBySlug(
   return products.find(
     (product) => product.categorySlug === categorySlug && product.slug === productSlug
   );
+}
+
+/**
+ * Get all products across every category. Tries Sanity first, falls back to mock data.
+ */
+export async function getAllProducts(): Promise<ProductListItem[]> {
+  try {
+    const sanityProducts = await fetchAllProductsFromSanity();
+    if (Array.isArray(sanityProducts) && sanityProducts.length > 0) {
+      return sanityProducts.map((doc: any) => sanityToProductListItem(doc));
+    }
+  } catch (error) {
+    console.warn("Failed to fetch all products from Sanity, using mock data", error);
+  }
+
+  return [...products].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /**

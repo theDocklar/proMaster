@@ -99,7 +99,7 @@ export default function Home() {
 
       {/* ── PRODUCT DETAIL ── */}
       <div id="product-detail">
-        <div className="breadcrumb">
+        {/* <div className="breadcrumb">
           <a href="#">Home</a>
           <span className="bc-sep">/</span>
           <a href="#">Products</a>
@@ -107,9 +107,9 @@ export default function Home() {
           <a href="#">Waterproofing</a>
           <span className="bc-sep">/</span>
           PM-CRYSTAL 300
-        </div>
+        </div> */}
 
-        <ProductDetailTabs />
+        {/* <ProductDetailTabs /> */}
 
         <div className="detail-wrap">
           <div className="detail-image">

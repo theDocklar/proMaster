@@ -3,13 +3,11 @@ import ProductCard from "@/components/products/listing/ProductCard";
 
 type RelatedProductsProps = {
   products: ProductListItem[];
-  categorySlug: string;
   categoryTitle: string;
 };
 
 export default function RelatedProducts({
   products,
-  categorySlug,
   categoryTitle,
 }: RelatedProductsProps) {
   if (products.length === 0) return null;
@@ -27,7 +25,7 @@ export default function RelatedProducts({
 
         <div className="related-products-grid">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} categorySlug={categorySlug} />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </div>

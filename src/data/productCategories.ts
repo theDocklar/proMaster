@@ -195,5 +195,5 @@ export async function getCategoryBySlug(
 }
 
 export function getCategoryHref(category: ProductCategoryDocument): string {
-  return `/products/${category.slug.current}`;
+  return `/products?category=${category.slug.current}`;
 }

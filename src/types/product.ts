@@ -19,7 +19,13 @@ export type ProductListItem = {
 
 export type ProductSortOption = "name-asc" | "name-desc" | "sku-asc" | "newest";
 
+export type ProductCategoryOption = {
+  slug: string;
+  label: string;
+};
+
 export type ProductFilterState = {
+  categories: string[];
   applicationAreas: string[];
   packaging: string[];
   standards: string[];

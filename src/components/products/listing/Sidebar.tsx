@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type {
+  ProductCategoryOption,
   ProductFilterOptions,
   ProductFilterState,
   ProductSortOption,
@@ -13,7 +14,7 @@ type SidebarProps = {
   sort: ProductSortOption;
   filters: ProductFilterState;
   filterOptions: ProductFilterOptions;
-  totalResults: number;
+  categoryOptions: ProductCategoryOption[];
   onSearchChange: (value: string) => void;
   onSortChange: (value: ProductSortOption) => void;
   onFiltersChange: (filters: ProductFilterState) => void;
@@ -27,6 +28,86 @@ type FilterSectionProps = {
   selected: string[];
   onToggle: (group: keyof ProductFilterState, value: string) => void;
 };
+
+function CategoryFilterSection({
+  options,
+  selected,
+  onToggle,
+}: {
+  options: ProductCategoryOption[];
+  selected: string[];
+  onToggle: (slug: string) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(selected.length > 0);
+
+  useEffect(() => {
+    if (selected.length > 0) {
+      setIsOpen(true);
+    }
+  }, [selected.length]);
+
+  if (options.length === 0) return null;
+
+  return (
+    <div
+      className={`filter-sidebar__accordion-item${isOpen ? " filter-sidebar__accordion-item--open" : ""}`}
+    >
+      <button
+        type="button"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="filter-sidebar__accordion-trigger"
+        aria-expanded={isOpen}
+      >
+        <span className="filter-sidebar__accordion-title">Category</span>
+
+        <span className="filter-sidebar__accordion-meta">
+          {selected.length > 0 && (
+            <span className="filter-sidebar__badge">{selected.length}</span>
+          )}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="filter-sidebar__chevron"
+            aria-hidden="true"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </span>
+      </button>
+
+      <div className="filter-sidebar__accordion-panel">
+        <div className="filter-sidebar__accordion-content">
+          <ul className="filter-sidebar__options">
+            {options.map((option) => {
+              const checked = selected.includes(option.slug);
+              const id = `categories-${option.slug}`;
+
+              return (
+                <li key={option.slug}>
+                  <label htmlFor={id} className="filter-sidebar__option">
+                    <input
+                      id={id}
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => onToggle(option.slug)}
+                      className="filter-sidebar__checkbox"
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function FilterSection({
   title,
@@ -111,7 +192,7 @@ export default function Sidebar({
   sort,
   filters,
   filterOptions,
-  totalResults,
+  categoryOptions,
   onSearchChange,
   onSortChange,
   onFiltersChange,
@@ -125,6 +206,7 @@ export default function Sidebar({
   };
 
   const activeFilterCount =
+    filters.categories.length +
     filters.applicationAreas.length +
     filters.packaging.length +
     filters.standards.length;
@@ -198,6 +280,11 @@ export default function Sidebar({
           </div>
 
           <div className="filter-sidebar__accordion">
+            <CategoryFilterSection
+              options={categoryOptions}
+              selected={filters.categories}
+              onToggle={(slug) => handleToggle("categories", slug)}
+            />
             <FilterSection
               title="Application area"
               group="applicationAreas"

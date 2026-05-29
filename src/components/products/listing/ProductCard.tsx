@@ -3,10 +3,9 @@ import type { ProductListItem } from "@/types/product";
 
 type ProductCardProps = {
   product: ProductListItem;
-  categorySlug: string;
 };
 
-export default function ProductCard({ product, categorySlug }: ProductCardProps) {
+export default function ProductCard({ product }: ProductCardProps) {
   const tags = product.applicationAreas.slice(0, 3);
 
   return (
@@ -44,7 +43,7 @@ export default function ProductCard({ product, categorySlug }: ProductCardProps)
 
         <div className="product-card__footer">
           <Link
-            href={`/products/${categorySlug}/${product.slug}`}
+            href={`/products/${product.categorySlug}/${product.slug}`}
             className="product-card__cta"
           >
             View product &nbsp;&#8594;

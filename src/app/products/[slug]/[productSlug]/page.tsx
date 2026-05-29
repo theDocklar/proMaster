@@ -77,7 +77,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         <RelatedProducts
           products={relatedProducts}
-          categorySlug={slug}
           categoryTitle={category.shortTitle ?? category.title}
         />
       </main>
