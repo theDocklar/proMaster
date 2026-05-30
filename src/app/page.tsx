@@ -239,9 +239,9 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <a href="#" className="about-cta">
+          <Link href="/about" className="about-cta">
             Company Profile &nbsp;&#8594;
-          </a>
+          </Link>
         </div>
       </div>
 

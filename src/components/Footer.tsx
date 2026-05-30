@@ -1,3 +1,4 @@
+import Link from "next/link";
 import BackToTop from "@/components/BackToTop";
 import { getCategoryHref, productCategories } from "@/data/productCategories";
 
@@ -42,11 +43,11 @@ export default function Footer() {
         <div className="pf-col">
           <h4>Company</h4>
           <div className="pf-links">
-            {["About", "Projects", "Distributors", "Careers", "Contact"].map((l) => (
-              <a href="#" key={l}>
-                {l}
-              </a>
-            ))}
+            <Link href="/about">About</Link>
+            <Link href="/projects">Projects</Link>
+            <a href="/#contact">Distributors</a>
+            <Link href="/careers">Careers</Link>
+            <a href="/#contact">Contact</a>
           </div>
         </div>
 
