@@ -26,10 +26,10 @@ export default function Header() {
           <div className="nav-group">
             <span className="nav-group-label">Company</span>
             <div className="nav-dropdown">
-              <a href="#about">About</a>
+              <Link href="/about">About</Link>
               <Link href="/projects">Projects</Link>
               <a href="#contact">Distributors</a>
-              <a href="#contact">Careers</a>
+              <Link href="/careers">Careers</Link>
             </div>
           </div>
           <div className="nav-group">
