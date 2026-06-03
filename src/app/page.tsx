@@ -1,11 +1,17 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ProductDetailTabs from "@/components/ProductDetailTabs";
 import InquiryForm from "@/components/InquiryForm";
 import { FaWhatsapp } from "react-icons/fa";
+import { client } from "@/sanity/lib/client";
+import { ALL_CATEGORIES_QUERY, ALL_PROJECTS_QUERY, ALL_CERTIFICATIONS_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image-url";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch data from Sanity
+  const categories = await client.fetch(ALL_CATEGORIES_QUERY);
+  const projects = await client.fetch(ALL_PROJECTS_QUERY);
+  const certifications = await client.fetch(ALL_CERTIFICATIONS_QUERY);
   return (
     <>
       {/* ── HEADER ── */}
@@ -59,34 +65,29 @@ export default function Home() {
 
       {/* ── PRODUCT SHOWCASE ── */}
       <div className="showcase" id="products">
-        {[
-          {
-            name: "Waterproofing",
-            tag: "Crystalline, membrane & cementitious systems",
-          },
-          {
-            name: "Tile Adhesives",
-            tag: "C1, C2, C2S1, C2S2 for all substrates",
-          },
-          {
-            name: "Concrete Repair",
-            tag: "Structural mortars and protection systems",
-          },
-        ].map(({ name, tag }) => (
-          <div className="showcase-col" key={name}>
-            <div className="sc-name">{name}</div>
-            <div className="sc-tag">{tag}</div>
+        {categories.slice(0, 3).map((cat: any) => (
+          <div className="showcase-col" key={cat._id}>
+            <div className="sc-name">{cat.shortTitle || cat.title}</div>
+            <div className="sc-tag">{cat.description}</div>
             <div className="sc-image">
-              <div
-                className="img-ph"
-                style={{ width: "100%", height: "100%", minHeight: 260 }}
-              >
-                <div className="img-ph-label">Product Image</div>
-              </div>
+              {cat.image?.asset ? (
+                <img
+                  src={urlFor(cat.image).width(800).height(600).url()}
+                  alt={cat.image.alt || cat.title}
+                  style={{ width: "100%", height: "100%", minHeight: 260, objectFit: "cover" }}
+                />
+              ) : (
+                <div
+                  className="img-ph"
+                  style={{ width: "100%", height: "100%", minHeight: 260 }}
+                >
+                  <div className="img-ph-label">Product Image</div>
+                </div>
+              )}
             </div>
-            <a className="sc-link" href="#">
+            <Link className="sc-link" href={`/products/${cat.slug.current}`}>
               View range &nbsp;&#8594;
-            </a>
+            </Link>
           </div>
         ))}
       </div>
@@ -247,37 +248,11 @@ export default function Home() {
 
       {/* ── CERTIFICATIONS ── */}
       <div className="certs-row">
-        {[
-          {
-            abbr: "ISO",
-            name: "ISO 9001:2015",
-            desc: "Quality management — manufacturing and supply chain",
-          },
-          {
-            abbr: "MOEI",
-            name: "UAE Ministry of Energy",
-            desc: "Product approvals for selected waterproofing systems",
-          },
-          {
-            abbr: "ASTM",
-            name: "ASTM International",
-            desc: "Tested to ASTM C1202, C109, and C882 standards",
-          },
-          {
-            abbr: "EN / BS",
-            name: "EN 1504 / BS 6920",
-            desc: "European and British Standards for concrete protection",
-          },
-          {
-            abbr: "WRAS",
-            name: "WRAS Approval",
-            desc: "Potable water contact approval for tank waterproofing",
-          },
-        ].map(({ abbr, name, desc }) => (
-          <div className="cert-col" key={abbr}>
-            <div className="cert-abbr">{abbr}</div>
-            <div className="cert-name">{name}</div>
-            <div className="cert-desc">{desc}</div>
+        {certifications.slice(0, 5).map((cert: any) => (
+          <div className="cert-col" key={cert._id}>
+            <div className="cert-abbr">{cert.abbr}</div>
+            <div className="cert-name">{cert.name}</div>
+            <div className="cert-desc">{cert.description}</div>
           </div>
         ))}
       </div>
@@ -371,85 +346,51 @@ export default function Home() {
         </div>
 
         <div className="proj-list">
-          {[
-            {
-              idx: "01 / Dubai",
-              name: "Dubai Marina Mixed-Use Tower",
-              tags: ["Waterproofing", "Below-grade", "AECOM"],
-              year: "2024",
-            },
-            {
-              idx: "02 / Abu Dhabi",
-              name: "Government Authority Headquarters",
-              tags: ["Epoxy Flooring", "4,500 m²"],
-              year: "2023",
-            },
-            {
-              idx: "03 / Sharjah",
-              name: "Industrial Plant Structural Restoration",
-              tags: ["Concrete Repair", "EN 1504-3 R3"],
-              year: "2024",
-            },
-            {
-              idx: "04 / Ras Al Khaimah",
-              name: "Luxury Resort Pool Complex",
-              tags: ["Waterproofing", "WRAS Certified", "8 Pools"],
-              year: "2023",
-            },
-            {
-              idx: "05 / Dubai",
-              name: "Metro Expansion Underground Station",
-              tags: ["Crystalline", "Injection", "Infrastructure"],
-              year: "2022",
-            },
-          ].map(({ idx, name, tags, year }) => (
-            <div className="proj-row" key={idx}>
+          {projects.slice(0, 5).map((project: any, index: number) => (
+            <div className="proj-row" key={project._id}>
               <div>
-                <div className="pr-index">{idx}</div>
+                <div className="pr-index">
+                  {String(index + 1).padStart(2, '0')} / {project.location?.split(',')[0] || 'UAE'}
+                </div>
               </div>
               <div>
-                <div className="pr-name">{name}</div>
+                <div className="pr-name">{project.name}</div>
                 <div className="pr-tags">
-                  {tags.map((t) => (
-                    <span className="pr-tag" key={t}>
-                      {t}
+                  {project.projectType && (
+                    <span className="pr-tag">{project.projectType}</span>
+                  )}
+                  {project.products?.slice(0, 2).map((prod: any) => (
+                    <span className="pr-tag" key={prod._id}>
+                      {prod.name}
                     </span>
                   ))}
                 </div>
               </div>
-              <div className="pr-meta">{year}</div>
+              <div className="pr-meta">{project.year || 'N/A'}</div>
             </div>
           ))}
         </div>
 
         <div className="proj-grid-visual">
-          {[
-            {
-              type: "Waterproofing — Dubai",
-              name: "Dubai Marina Tower",
-              loc: "Dubai Marina, UAE — 2024",
-            },
-            {
-              type: "Flooring — Abu Dhabi",
-              name: "Government Authority HQ",
-              loc: "Abu Dhabi, UAE — 2023",
-            },
-            {
-              type: "Infrastructure — Dubai",
-              name: "Metro Expansion Station",
-              loc: "Dubai, UAE — 2022",
-            },
-          ].map(({ type, name, loc }) => (
-            <div className="pgv-card" key={name}>
-              <div className="img-ph" style={{ height: 280 }}>
-                <div className="img-ph-label">Project Image</div>
-              </div>
+          {projects.slice(0, 3).map((project: any) => (
+            <Link href={`/projects/${project.slug.current}`} key={project._id} className="pgv-card">
+              {project.image?.asset ? (
+                <img
+                  src={urlFor(project.image).width(800).height(600).url()}
+                  alt={project.image.alt || project.name}
+                  style={{ height: 280, width: '100%', objectFit: 'cover' }}
+                />
+              ) : (
+                <div className="img-ph" style={{ height: 280 }}>
+                  <div className="img-ph-label">Project Image</div>
+                </div>
+              )}
               <div className="pgv-info">
-                <div className="pgv-type">{type}</div>
-                <div className="pgv-name">{name}</div>
-                <div className="pgv-loc">{loc}</div>
+                <div className="pgv-type">{project.projectType || 'Project'} — {project.location?.split(',')[0] || 'UAE'}</div>
+                <div className="pgv-name">{project.name}</div>
+                <div className="pgv-loc">{project.location || 'UAE'} — {project.year || 'N/A'}</div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
