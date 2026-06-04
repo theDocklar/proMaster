@@ -43,6 +43,16 @@ export const resource = defineType({
       },
     }),
     defineField({
+      name: 'previewImage',
+      title: 'Preview Image',
+      type: 'image',
+      description:
+        'Optional cover image for listings (e.g. first page of the PDF). Auto-generated preview is used when empty.',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: 'releaseDate',
       title: 'Release/Updated Date',
       type: 'datetime',

@@ -35,7 +35,7 @@ export default function Header() {
           <div className="nav-group">
             <span className="nav-group-label">Resources</span>
             <div className="nav-dropdown">
-              <a href="#resources">Technical Data Sheets</a>
+              <a href="/technical-data-sheets">Technical Data Sheets</a>
               <a href="#resources">Safety Data Sheets</a>
               <a href="#resources">Application Guides</a>
               <a href="#resources">Downloads</a>

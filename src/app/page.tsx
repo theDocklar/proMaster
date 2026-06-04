@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -19,6 +20,17 @@ export default async function Home() {
 
       {/* ── HERO ── */}
       <section className="hero" id="home">
+        <div className="hero-bg" aria-hidden="true">
+          <Image
+            src="/hero.jpeg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="hero-bg-img"
+          />
+        </div>
+
         <div className="hero-newsletter">
           <div className="hn-label">Newsletter</div>
           <div className="hn-input-row">
@@ -48,18 +60,9 @@ export default async function Home() {
             Waterproofing, adhesives, coatings, and repair systems. ISO
             certified. Distributed across the GCC.
           </p>
-          <a href="#products" className="hero-cta">
+          <Link href="/products" className="hero-cta">
             Explore Products &nbsp;&#8594;
-          </a>
-        </div>
-
-        <div className="hero-image">
-          <div
-            className="img-ph"
-            style={{ width: "100%", height: "100%", minHeight: 600 }}
-          >
-            <div className="img-ph-label">Hero Product Image</div>
-          </div>
+          </Link>
         </div>
       </section>
 
@@ -282,6 +285,7 @@ export default async function Home() {
               title: "Technical Data Sheets",
               desc: "Product composition, mechanical properties, application method, mixing ratios, and performance data.",
               link: "Browse TDS",
+              href: "/technical-data-sheets",
             },
             {
               num: "200+",
@@ -304,13 +308,13 @@ export default async function Home() {
               desc: "Category and system brochures for submittal, specification, and client presentations.",
               link: "Browse",
             },
-            {
-              num: "50+",
-              type: "Certificates",
-              title: "Test Reports",
-              desc: "Third-party laboratory certificates issued under ASTM, EN, and UAE standard references.",
-              link: "Browse",
-            },
+            // {
+            //   num: "50+",
+            //   type: "Certificates",
+            //   title: "Test Reports",
+            //   desc: "Third-party laboratory certificates issued under ASTM, EN, and UAE standard references.",
+            //   link: "Browse",
+            // },
             {
               num: "30+",
               type: "Case Studies",
@@ -318,13 +322,19 @@ export default async function Home() {
               desc: "Documented applications on landmark UAE projects with performance data and consultant references.",
               link: "Browse",
             },
-          ].map(({ num, type, title, desc, link }) => (
+          ].map(({ num, type, title, desc, link, href }) => (
             <div className="res-col" key={title}>
               <div className="rc-num">{num}</div>
               <div className="rc-type">{type}</div>
               <div className="rc-title">{title}</div>
               <div className="rc-desc">{desc}</div>
-              <span className="rc-link">{link} &#8594;</span>
+              {href ? (
+                <Link href={href} className="rc-link">
+                  {link} &#8594;
+                </Link>
+              ) : (
+                <span className="rc-link">{link} &#8594;</span>
+              )}
             </div>
           ))}
         </div>
