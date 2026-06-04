@@ -218,8 +218,21 @@ export const RESOURCES_BY_TYPE_QUERY = `
     _id,
     title,
     type,
-    "product": product->{_id, name, slug},
+    "product": product->{
+      _id,
+      name,
+      slug,
+      "categorySlug": category->slug.current,
+      image {
+        asset { url },
+        alt
+      }
+    },
     "fileUrl": pdfFile.asset->url,
+    previewImage {
+      asset { _ref, url },
+      alt
+    },
     releaseDate,
     tags
   }

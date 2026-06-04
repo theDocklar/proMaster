@@ -285,6 +285,7 @@ export default async function Home() {
               title: "Technical Data Sheets",
               desc: "Product composition, mechanical properties, application method, mixing ratios, and performance data.",
               link: "Browse TDS",
+              href: "/technical-data-sheets",
             },
             {
               num: "200+",
@@ -321,13 +322,19 @@ export default async function Home() {
               desc: "Documented applications on landmark UAE projects with performance data and consultant references.",
               link: "Browse",
             },
-          ].map(({ num, type, title, desc, link }) => (
+          ].map(({ num, type, title, desc, link, href }) => (
             <div className="res-col" key={title}>
               <div className="rc-num">{num}</div>
               <div className="rc-type">{type}</div>
               <div className="rc-title">{title}</div>
               <div className="rc-desc">{desc}</div>
-              <span className="rc-link">{link} &#8594;</span>
+              {href ? (
+                <Link href={href} className="rc-link">
+                  {link} &#8594;
+                </Link>
+              ) : (
+                <span className="rc-link">{link} &#8594;</span>
+              )}
             </div>
           ))}
         </div>
