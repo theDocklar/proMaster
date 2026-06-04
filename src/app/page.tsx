@@ -75,7 +75,7 @@ export default async function Home() {
             <div className="sc-image">
               {cat.image?.asset ? (
                 <img
-                  src={urlFor(cat.image).width(800).height(600).url()}
+                  src={urlFor(cat.image.asset).width(800).height(600).url()}
                   alt={cat.image.alt || cat.title}
                   style={{ width: "100%", height: "100%", minHeight: 260, objectFit: "cover" }}
                 />
@@ -386,7 +386,7 @@ export default async function Home() {
             <Link href={`/projects/${project.slug.current}`} key={project._id} className="pgv-card">
               {project.image?.asset ? (
                 <img
-                  src={urlFor(project.image).width(800).height(600).url()}
+                  src={urlFor(project.image.asset).width(800).height(600).url()}
                   alt={project.image.alt || project.name}
                   style={{ height: 280, width: '100%', objectFit: 'cover' }}
                 />
