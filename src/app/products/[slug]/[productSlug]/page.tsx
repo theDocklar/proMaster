@@ -3,8 +3,7 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductGallery from "@/components/products/detail/ProductGallery";
-import ProductDetailTabs from "@/components/products/detail/ProductDetailTabs";
-import ProductFeaturesSpecs from "@/components/products/detail/ProductFeaturesSpecs";
+import ProductDetailBody from "@/components/products/detail/ProductDetailBody";
 import ProductDownloads from "@/components/products/detail/ProductDownloads";
 import ProductCTA from "@/components/products/detail/ProductCTA";
 import RelatedProducts from "@/components/products/detail/RelatedProducts";
@@ -55,9 +54,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <Header />
 
       <main className="page-main">
-        <ProductDetailTabs />
+        {/* <ProductDetailTabs /> */}
 
-        <div className="detail-wrap">
+        <div className="detail-hero">
           <ProductGallery images={product.images} productName={product.name} />
 
           <div className="detail-info">
@@ -68,10 +67,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {product.sku}
             </h1>
             <p className="di-desc">{product.description}</p>
-
-            <ProductFeaturesSpecs product={product} />
-            <ProductDownloads downloads={product.downloads} />
+            <ProductDownloads downloads={product.downloads} variant="compact" />
             <ProductCTA product={product} />
+          </div>
+        </div>
+
+        <div className="detail-body">
+          <div className="detail-body-inner">
+            <ProductDetailBody product={product} />
           </div>
         </div>
 
