@@ -31,7 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         <p className="product-card__description">{product.shortDescription}</p>
 
-        {tags.length > 0 && (
+        {/* {tags.length > 0 && (
           <ul className="product-card__tags" aria-label="Application areas">
             {tags.map((area) => (
               <li key={area}>
@@ -39,7 +39,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               </li>
             ))}
           </ul>
-        )}
+        )} */}
 
         <div className="product-card__footer">
           <Link

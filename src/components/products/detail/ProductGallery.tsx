@@ -19,12 +19,14 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
       <div className="detail-gallery">
         <div className="detail-gallery-main">
           {activeImage.url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={activeImage.url}
-              alt={activeImage.alt}
-              className="detail-gallery-img"
-            />
+            <div className="detail-gallery-frame">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={activeImage.url}
+                alt={activeImage.alt}
+                className="detail-gallery-img"
+              />
+            </div>
           ) : (
             <div className="img-ph detail-gallery-ph">
               <div className="img-ph-label">{activeImage.alt}</div>

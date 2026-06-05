@@ -101,7 +101,12 @@ export function sanityToProductDetail(doc: any): ProductDetail {
     ].filter(Boolean) as ProductSpecification[]
   );
 
-  const galleryUrl = list.image.url;
+  const galleryUrl =
+    getSanityImageUrl(doc?.image, {
+      width: 1200,
+      height: 1200,
+      fit: "max",
+    }) ?? list.image.url;
   const images: ProductImage[] = galleryUrl
     ? [{ alt: list.image.alt, url: galleryUrl }]
     : [{ alt: list.image.alt }];

@@ -34,15 +34,7 @@ export default function DataSheetCard({ dataSheet }: DataSheetCardProps) {
   const productHref = `/products/${product.categorySlug}/${product.slug}`;
   const fileUrl = dataSheet.fileUrl;
 
-  const preview = (
-    <DataSheetPreview
-      title={dataSheet.title}
-      fileUrl={fileUrl}
-      previewImageUrl={dataSheet.previewImage?.url}
-      productImageUrl={product.image.url}
-      productImageAlt={product.image.alt}
-    />
-  );
+  const preview = <DataSheetPreview />;
 
   const titleContent = fileUrl ? (
     <DocumentLink href={fileUrl} className="data-sheet-card__title-link">
