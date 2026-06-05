@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Header() {
@@ -14,8 +15,19 @@ export default function Header() {
   return (
     <header className={`site-header${scrolled ? " scrolled" : ""}`}>
       <div className="nav-row">
-        <Link href="/" className="nav-logo">
-          Pro <span>Master</span>
+        <Link href="/" className="nav-logo" aria-label="Pro Master home">
+          <Image
+            src="/promaster-logo.png"
+            alt=""
+            width={64}
+            height={64}
+            priority
+            aria-hidden="true"
+            className="nav-logo-img"
+          />
+          <span className="nav-logo-text">
+            Pro <span>Master</span>
+          </span>
         </Link>
 
         <nav className="nav-groups">

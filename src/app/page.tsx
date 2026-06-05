@@ -99,6 +99,15 @@ export default async function Home() {
       <div className="brand-type">
         <span className="brand-word">PRO</span>
         <span className="brand-word outline">MASTER</span>
+        <div className="brand-type-logo">
+          <Image
+            src="/promaster-logo.png"
+            alt="Pro Master logo"
+            width={320}
+            height={320}
+            className="brand-type-logo-img"
+          />
+        </div>
       </div>
 
       {/* ── PRODUCT DETAIL ── */}
