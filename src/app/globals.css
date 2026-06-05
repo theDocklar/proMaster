@@ -192,6 +192,9 @@ button {
 }
 
 .nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 14px;
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -199,7 +202,14 @@ button {
   text-transform: uppercase;
 }
 
-.nav-logo span {
+.nav-logo-img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.nav-logo-text span {
   color: var(--pm-red);
 }
 
@@ -565,6 +575,18 @@ button {
   -webkit-text-stroke: 1.5px var(--pm-red);
   color: transparent;
 }
+.brand-type-logo {
+  position: absolute;
+  right: clamp(24px, 5vw, 80px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(140px, 20vw, 360px)
+}
+.brand-type-logo-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
 
 /* ── PRODUCT DETAIL ── */
 .detail-hero,
@@ -670,8 +692,8 @@ button {
 }
 .detail-spec-item {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 4px;
   padding: 14px 20px;
   border: 1px solid var(--border);
   background: var(--white);
@@ -683,9 +705,8 @@ button {
 }
 .detail-spec-val {
   color: var(--black);
-  font-weight: 700;
   margin: 0;
-  text-align: right;
+  text-align: left;
 }
 .detail-application-grid {
   display: flex;
@@ -2902,6 +2923,10 @@ a.proj-row,
   .brand-word {
     font-size: 80px;
     letter-spacing: -3px;
+  }
+  .brand-type-logo {
+    width: 96px;
+    right: 20px;
   }
   .pre-footer {
     grid-template-columns: 1fr;
