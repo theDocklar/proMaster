@@ -197,13 +197,13 @@ button {
   gap: 10px;
   font-size: 14px;
   font-weight: 900;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   color: var(--black);
   text-transform: uppercase;
 }
 
 .nav-logo-img {
-  height: 28px;
+  height: 36px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
@@ -380,10 +380,10 @@ button {
   z-index: 1;
 }
 .hero-eyebrow {
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 900;
   color: var(--pm-red);
-  letter-spacing: 0.13em;
+  letter-spacing: 0.18em;
   margin-bottom: 16px;
   font-family: var(--mono);
   text-transform: uppercase;
@@ -408,18 +408,20 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--pm-red);
-  border-bottom: 1px solid var(--pm-red);
-  padding-bottom: 2px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--white);
+  background: var(--pm-red);
+  border: 2px solid var(--pm-red);
+  padding: 14px 32px;
   width: fit-content;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: opacity 0.15s;
+  transition: all 0.2s;
 }
 .hero-cta:hover {
-  opacity: 0.75;
+  background: var(--black);
+  border-color: var(--black);
 }
 
 .hero-bg {
@@ -625,7 +627,10 @@ button {
   user-select: none;
   line-height: 0.82;
   border-top: 1px solid var(--border);
-  position: relative;
+  padding: 60px 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
 }
 .brand-word {
   font-size: clamp(120px, 22vw, 260px);
@@ -636,22 +641,25 @@ button {
   display: block;
   line-height: 0.88;
   text-transform: uppercase;
+  grid-column: 1;
 }
 .brand-word.outline {
   -webkit-text-stroke: 1.5px var(--pm-red);
   color: transparent;
 }
 .brand-type-logo {
-  position: absolute;
-  right: clamp(24px, 5vw, 80px);
-  top: 50%;
-  transform: translateY(-50%);
-  width: clamp(140px, 20vw, 360px)
+  grid-column: 2;
+  grid-row: 1 / 3;
+  display: flex;
+  align-items: center;
+  padding-left: clamp(20px, 3vw, 60px);
+  align-self: stretch;
 }
 .brand-type-logo-img {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 100%;
   object-fit: contain;
+  transform: scale(1.3);
 }
 
 /* ── PRODUCT DETAIL ── */
@@ -966,9 +974,10 @@ button {
 .di-dl-btn {
   font-size: 11px;
   font-family: var(--mono);
+  font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--mid);
   padding: 8px 16px;
   color: var(--mid);
   cursor: pointer;
@@ -1026,10 +1035,11 @@ a.di-btn-secondary {
 .di-area-tag {
   font-size: 11px;
   font-family: var(--mono);
+  font-weight: 700;
   letter-spacing: 0.5px;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   padding: 5px 12px;
-  color: var(--mid);
+  color: var(--dark);
 }
 
 .di-section-label {
@@ -3036,8 +3046,7 @@ a.proj-row,
     letter-spacing: -3px;
   }
   .brand-type-logo {
-    width: 96px;
-    right: 20px;
+    padding-left: 10px;
   }
   .pre-footer {
     grid-template-columns: 1fr;
