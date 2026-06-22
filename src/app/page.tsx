@@ -22,7 +22,7 @@ export default async function Home() {
       <section className="hero" id="home">
         <div className="hero-bg" aria-hidden="true">
           <Image
-            src="/hero.jpeg"
+            src="/hero3.jpg"
             alt=""
             fill
             priority

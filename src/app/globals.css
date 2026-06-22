@@ -306,10 +306,10 @@ button {
 .hero-text {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-self: start;
+  justify-content: flex-end;
+  align-self: end;
   max-width: 560px;
-  padding: 70px 48px 80px;
+  padding: 48px 48px 80px;
   position: relative;
   z-index: 1;
 }
@@ -317,7 +317,8 @@ button {
   font-size: 11px;
   font-weight: 700;
   color: var(--pm-red);
-  letter-spacing: 0.13em;
+  letter-spacing: 0.18em;
+  word-spacing: 0.2em;
   margin-bottom: 16px;
   font-family: var(--mono);
   text-transform: uppercase;
@@ -327,7 +328,8 @@ button {
   font-weight: 900;
   color: var(--black);
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: 0.02em;
+  word-spacing: 0.15em;
   margin-bottom: 14px;
   text-transform: uppercase;
 }
@@ -336,6 +338,8 @@ button {
   color: var(--mid);
   max-width: 320px;
   line-height: 1.7;
+  letter-spacing: 0.04em;
+  word-spacing: 0.1em;
   margin-bottom: 28px;
 }
 .hero-cta {
@@ -348,7 +352,8 @@ button {
   border-bottom: 1px solid var(--pm-red);
   padding-bottom: 2px;
   width: fit-content;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
+  word-spacing: 0.12em;
   text-transform: uppercase;
   transition: opacity 0.15s;
 }
@@ -2738,6 +2743,7 @@ a.proj-row,
   }
   .hero-text {
     max-width: none;
+    align-self: auto;
     padding-top: 40px;
   }
   .hero-newsletter {
